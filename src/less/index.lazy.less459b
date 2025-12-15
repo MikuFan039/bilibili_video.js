@@ -1,0 +1,31 @@
+import api from "!../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js";
+            import content from "!!../../../../node_modules/css-loader/dist/cjs.js??ref--8-1!../../../../node_modules/postcss-loader/dist/cjs.js??ref--8-2!../../../../node_modules/less-loader/dist/cjs.js??ref--8-3!./index.lazy.less";
+
+var refs = 0;
+var update;
+var options = {"injectType":"lazyStyleTag","attributes":{"data-injector":"video"}};
+
+options.insert = "head";
+options.singleton = false;
+
+var exported = {};
+
+exported.locals = content.locals || {};
+exported.use = function() {
+  if (!(refs++)) {
+    update = api(content, options);
+  }
+
+  return exported;
+};
+exported.unuse = function() {
+  if (refs > 0 && !--refs) {
+    update();
+    update = null;
+  }
+};
+
+
+
+;
+       export default exported;
